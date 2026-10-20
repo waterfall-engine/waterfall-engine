@@ -16,6 +16,37 @@ Agency CMO analytics: class-level cashflows, price/yield, WAL and duration for G
 
 Each deal's principal and interest rules are modelled from that deal's own structure: sequential, pro rata, PAC and support schedules, accrual classes, exchangeable classes and notional IOs. Collateral is followed pool by pool from the agencies' monthly factor files, so projections start from current balances.
 
+## Repository layout
+
+```
+waterfall-engine/
+├── api/                    Python client API
+│   ├── deal, group, class      look up by CUSIP; deal pages and summaries
+│   ├── collateral              pools, strata, subgroups, re-REMIC look-through
+│   ├── speeds                  CPR / PSA / SMM inputs, by pool or by group
+│   ├── waterfall               plain-English payment rules for each group
+│   └── cashflow/
+│       ├── project             period-by-period projection
+│       ├── classflows          class cashflow tables
+│       ├── calendar            agency payment and accrual dates
+│       ├── market              index paths (SOFR and others)
+│       ├── arm                 ARM collateral resets
+│       └── price_yield         price, yield, DM, WAL, duration, convexity
+├── engines/                one for each agency's deal structures
+│   ├── ginnie
+│   ├── fannie
+│   └── freddie
+├── dealdb/                 as-issued deal facts: classes, groups, pools, coupon formulas
+├── statedb/                monthly updates from agency factor files
+│   ├── factors, pools          current balances and pool data
+│   ├── speeds                  measured prepayment speeds
+│   └── multifamily             Ginnie multifamily loans
+├── examples/
+└── tests/
+```
+
+*Source is private. This shows how the engine is organised.*
+
 ## Status
 
 In active development. Access is by arrangement. Get in touch if you would like to try it.
